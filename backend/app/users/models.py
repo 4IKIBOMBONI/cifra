@@ -30,7 +30,7 @@ class User(Base):
 
     # Relationships
     bookings = relationship("Booking", back_populates="user", lazy="selectin")
-    rating_events = relationship("RatingEvent", back_populates="user", lazy="selectin")
+    rating_events = relationship("RatingEvent", back_populates="user", foreign_keys="[RatingEvent.user_id]", lazy="selectin")
     notifications = relationship("Notification", back_populates="user", lazy="selectin")
     dksh_profile = relationship("DkshProfile", back_populates="user", uselist=False, lazy="selectin")
 
