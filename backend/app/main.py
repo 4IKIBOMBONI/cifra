@@ -1,13 +1,54 @@
+import logging
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
+from app.database import engine, Base
+
+logger = logging.getLogger(__name__)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Import all models so Base.metadata knows about them
+    import app.users.models  # noqa: F401
+    import app.directions.models  # noqa: F401
+    import app.locations.models  # noqa: F401
+    import app.resources.models  # noqa: F401
+    import app.booking.models  # noqa: F401
+    import app.teams.models  # noqa: F401
+    import app.rating.models  # noqa: F401
+    import app.rewards.models  # noqa: F401
+    import app.news.models  # noqa: F401
+    import app.materials.models  # noqa: F401
+    import app.dksh.models  # noqa: F401
+    import app.notifications.models  # noqa: F401
+    import app.audit.models  # noqa: F401
+
+    # Create all tables
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    logger.info("Database tables created")
+
+    # Run seed if DB is empty
+    try:
+        from app.seed import seed_data
+        await seed_data()
+        logger.info("Seed data loaded")
+    except Exception as e:
+        logger.warning(f"Seed skipped or failed: {e}")
+
+    yield
+
 
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
     docs_url="/api/docs",
     redoc_url="/api/redoc",
+    lifespan=lifespan,
 )
 
 # CORS
