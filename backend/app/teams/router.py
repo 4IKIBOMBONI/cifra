@@ -45,7 +45,7 @@ class InviteRequest(BaseModel):
 
 @router.get("/my", response_model=list[TeamResponse])
 async def my_teams(
-    user: User = Depends(require_roles("student")),
+    user: User = Depends(require_roles("student", "admin")),
     db: AsyncSession = Depends(get_db),
 ):
     result = await db.execute(
@@ -60,7 +60,7 @@ async def my_teams(
 @router.post("/", response_model=TeamResponse)
 async def create_team(
     data: TeamCreate,
-    user: User = Depends(require_roles("student")),
+    user: User = Depends(require_roles("student", "admin")),
     db: AsyncSession = Depends(get_db),
 ):
     team = Team(name=data.name, direction_id=data.direction_id, captain_id=user.id)
@@ -80,7 +80,7 @@ async def create_team(
 async def invite_member(
     team_id: UUID,
     data: InviteRequest,
-    user: User = Depends(require_roles("student")),
+    user: User = Depends(require_roles("student", "admin")),
     db: AsyncSession = Depends(get_db),
 ):
     result = await db.execute(select(Team).where(Team.id == team_id))
@@ -103,7 +103,7 @@ async def invite_member(
 @router.post("/{team_id}/accept")
 async def accept_invite(
     team_id: UUID,
-    user: User = Depends(require_roles("student")),
+    user: User = Depends(require_roles("student", "admin")),
     db: AsyncSession = Depends(get_db),
 ):
     result = await db.execute(

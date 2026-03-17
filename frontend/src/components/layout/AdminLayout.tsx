@@ -17,7 +17,7 @@ const ADMIN_NAV = [
   { label: 'Материалы', path: '/admin/materials', icon: BookOpen },
   { label: 'Награды', path: '/admin/rewards', icon: Gift },
   { label: 'Рейтинг', path: '/admin/rating', icon: Trophy },
-  { label: 'ДКШП', path: '/admin/dksh', icon: GraduationCap },
+  { label: 'ДКШ', path: '/admin/dksh', icon: GraduationCap },
   { label: 'Аналитика', path: '/admin/analytics', icon: BarChart3 },
   { label: 'Аудит', path: '/admin/audit', icon: FileText },
 ];

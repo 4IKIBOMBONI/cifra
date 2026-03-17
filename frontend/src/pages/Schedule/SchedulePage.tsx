@@ -7,7 +7,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { slotsApi, bookingsApi, directionsApi } from '@/api';
 import type { Slot, Direction } from '@/types/api';
 import { useAuthStore } from '@/store/authStore';
-import { Calendar, Clock, Filter } from 'lucide-react';
+import { Calendar, Clock, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export function SchedulePage() {
   const [slots, setSlots] = useState<Slot[]>([]);
@@ -47,6 +47,12 @@ export function SchedulePage() {
     }
   };
 
+  const changeDate = (offset: number) => {
+    const d = new Date(selectedDate);
+    d.setDate(d.getDate() + offset);
+    setSelectedDate(d.toISOString().split('T')[0]);
+  };
+
   const dirName = (id: string) => directions.find(d => d.id === id)?.name || '';
 
   const statusConfig = (s: Slot) => {
@@ -68,12 +74,32 @@ export function SchedulePage() {
       <div className="flex flex-wrap items-center gap-3 mb-6">
         <div className="flex items-center gap-2">
           <Calendar size={16} className="text-text-muted" />
+          <button
+            onClick={() => changeDate(-1)}
+            className="p-1.5 rounded-lg bg-bg-elevated hover:bg-bg-surface border border-border transition-colors"
+            title="Предыдущий день"
+          >
+            <ChevronLeft size={16} />
+          </button>
           <input
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
             className="input-field w-auto text-sm"
           />
+          <button
+            onClick={() => changeDate(1)}
+            className="p-1.5 rounded-lg bg-bg-elevated hover:bg-bg-surface border border-border transition-colors"
+            title="Следующий день"
+          >
+            <ChevronRight size={16} />
+          </button>
+          <button
+            onClick={() => setSelectedDate(new Date().toISOString().split('T')[0])}
+            className="px-2.5 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors"
+          >
+            Сегодня
+          </button>
         </div>
         <div className="flex items-center gap-2">
           <Filter size={16} className="text-text-muted" />

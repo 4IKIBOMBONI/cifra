@@ -63,7 +63,7 @@ async def update_reward(
 @router.post("/request", response_model=RewardRequestResponse)
 async def request_reward(
     data: RewardRequestCreate,
-    user: User = Depends(require_roles("student")),
+    user: User = Depends(require_roles("student", "admin")),
     db: AsyncSession = Depends(get_db),
 ):
     result = await db.execute(select(Reward).where(Reward.id == data.reward_id))

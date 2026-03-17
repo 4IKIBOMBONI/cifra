@@ -102,11 +102,15 @@ export function Header() {
                 onClick={() => setProfileOpen(!profileOpen)}
                 className="flex items-center gap-2 p-1.5 hover:bg-bg-elevated rounded-lg transition-colors"
               >
-                <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
-                  <span className="text-xs font-bold text-white">
-                    {user?.first_name?.[0]}{user?.last_name?.[0]}
-                  </span>
-                </div>
+                {user?.avatar_url ? (
+                  <img src={user.avatar_url} alt="" className="w-8 h-8 rounded-lg object-cover" />
+                ) : (
+                  <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
+                    <span className="text-xs font-bold text-white">
+                      {user?.first_name?.[0]}{user?.last_name?.[0]}
+                    </span>
+                  </div>
+                )}
                 <ChevronDown size={14} className={`text-text-muted transition-transform hidden sm:block ${profileOpen ? 'rotate-180' : ''}`} />
               </button>
               {profileOpen && (

@@ -111,6 +111,7 @@ export const usersApi = {
   get: (id: string) => apiClient.get<User>(`/users/${id}`),
   create: (data: any) => apiClient.post<User>('/users', data),
   update: (id: string, data: any) => apiClient.patch<User>(`/users/${id}`, data),
+  updateMe: (data: any) => apiClient.patch<User>('/users/me', data),
 };
 
 export const auditApi = {
