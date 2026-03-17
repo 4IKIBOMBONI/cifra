@@ -253,6 +253,38 @@ export function HomePage() {
         </section>
       </div>
 
+      {/* Partner section - ДКШ */}
+      <section className="mt-8 mb-8">
+        <Card hover={false} className="relative overflow-hidden">
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500/20 to-green-500/20 flex items-center justify-center shrink-0">
+              <span className="text-3xl">🎓</span>
+            </div>
+            <div className="flex-1 text-center sm:text-left">
+              <div className="flex items-center gap-2 justify-center sm:justify-start mb-1">
+                <h3 className="text-lg font-bold">Проект совместно с ДКШ</h3>
+                <Badge variant="success" size="sm">Партнёр</Badge>
+              </div>
+              <p className="text-text-secondary text-sm mb-3">
+                Добровольная Кибершкола — образовательный проект для развития цифровых компетенций студентов.
+                Присоединяйтесь к нашему сообществу!
+              </p>
+              <a
+                href="https://vk.com/digitalschool"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 text-primary font-medium text-sm hover:bg-primary/20 transition-colors"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.785 16.241s.288-.032.436-.194c.136-.148.132-.427.132-.427s-.02-1.304.576-1.496c.588-.19 1.341 1.26 2.14 1.818.605.422 1.064.33 1.064.33l2.137-.03s1.117-.07.588-.964c-.043-.073-.308-.661-1.588-1.87-1.34-1.264-1.16-1.059.453-3.246.983-1.332 1.376-2.145 1.253-2.493-.117-.332-.84-.244-.84-.244l-2.406.015s-.178-.025-.31.056c-.13.079-.212.263-.212.263s-.382 1.03-.89 1.907c-1.07 1.85-1.499 1.948-1.674 1.834-.407-.267-.305-1.075-.305-1.648 0-1.793.267-2.54-.521-2.733-.262-.064-.454-.106-1.123-.113-.858-.009-1.585.003-1.996.208-.274.136-.485.44-.356.457.159.022.519.099.71.363.246.341.237 1.107.237 1.107s.142 2.11-.33 2.371c-.325.18-.77-.187-1.725-1.865-.489-.859-.859-1.81-.859-1.81s-.07-.178-.198-.273c-.155-.116-.372-.152-.372-.152l-2.286.015s-.343.01-.47.162c-.112.135-.009.414-.009.414s1.794 4.258 3.825 6.406c1.862 1.968 3.978 1.838 3.978 1.838h.959z"/>
+                </svg>
+                Сообщество ДКШ ВКонтакте
+              </a>
+            </div>
+          </div>
+        </Card>
+      </section>
+
       {/* Quick links */}
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
         {[

@@ -22,7 +22,7 @@ export function ProfilePage() {
     if (!user) return;
     setSaving(true);
     try {
-      await usersApi.update(user.id, form);
+      await usersApi.updateMe(form);
       await fetchUser();
       setEditing(false);
     } catch {
@@ -51,9 +51,13 @@ export function ProfilePage() {
       {/* User Info */}
       <Card hover={false} className="mb-6">
         <div className="flex flex-col sm:flex-row items-start gap-6">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-primary flex items-center justify-center shrink-0 shadow-glow-sm">
-            <span className="text-2xl font-bold text-white">{user.first_name[0]}{user.last_name[0]}</span>
-          </div>
+          {user.avatar_url ? (
+            <img src={user.avatar_url} alt="" className="w-20 h-20 rounded-2xl object-cover shrink-0 shadow-glow-sm" />
+          ) : (
+            <div className="w-20 h-20 rounded-2xl bg-gradient-primary flex items-center justify-center shrink-0 shadow-glow-sm">
+              <span className="text-2xl font-bold text-white">{user.first_name[0]}{user.last_name[0]}</span>
+            </div>
+          )}
           <div className="flex-1 space-y-2">
             <h2 className="text-xl font-bold">{user.last_name} {user.first_name} {user.patronymic || ''}</h2>
             <p className="text-text-secondary text-sm">{user.email}</p>
@@ -112,6 +116,7 @@ export function ProfilePage() {
           { to: '/teams', icon: <Users size={20} />, color: 'accent', title: 'Мои команды' },
           { to: '/rating', icon: <TrendingUp size={20} />, color: 'success', title: 'Рейтинг' },
           ...(user.role === 'student' ? [{ to: '/profile/dksh', icon: <FileText size={20} />, color: 'primary', title: 'Анкета ДКШ' }] : []),
+          ...(user.role === 'admin' ? [{ to: '/profile/dksh', icon: <FileText size={20} />, color: 'primary', title: 'Анкета ДКШ' }] : []),
           ...(user.role === 'admin' ? [{ to: '/admin/dashboard', icon: <Shield size={20} />, color: 'error', title: 'Админ-панель' }] : []),
         ].map(link => (
           <Link key={link.to} to={link.to}>

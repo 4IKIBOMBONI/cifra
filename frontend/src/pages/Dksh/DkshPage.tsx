@@ -94,7 +94,7 @@ export function DkshPage() {
     <PageLayout>
       <h1 className="text-2xl font-bold mb-2">Анкета кандидата ДКШ</h1>
       <p className="text-text-secondary mb-6">
-        Заполните анкету для участия в программе Добровольного Кадетского Шефства
+        Заполните анкету для участия в программе Добровольной Кибершколы
       </p>
 
       <div className="space-y-6">
