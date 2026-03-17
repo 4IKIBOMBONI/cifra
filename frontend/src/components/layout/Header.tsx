@@ -50,9 +50,7 @@ export function Header() {
         <div className="h-16 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0">
-            <div className="w-9 h-9 rounded-lg bg-gradient-primary flex items-center justify-center shadow-glow-sm">
-              <span className="text-white font-bold text-sm">C</span>
-            </div>
+            <img src="/images/logo.svg" alt="CIFRA" className="w-9 h-9 rounded-lg shadow-glow-sm" />
             <span className="text-xl font-bold gradient-text font-accent hidden sm:block">
               CIFRA
             </span>
