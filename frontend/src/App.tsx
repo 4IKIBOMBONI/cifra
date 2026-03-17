@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { AuthGuard, RoleGuard, GuestGuard } from '@/components/guards/AuthGuard';
+import { AdminLayout } from '@/components/layout/AdminLayout';
 
 // Auth pages
 import { LoginPage } from '@/pages/Auth/LoginPage';
@@ -80,21 +81,23 @@ export default function App() {
           <Route path="/profile/dksh" element={<DkshPage />} />
         </Route>
 
-        {/* Admin */}
+        {/* Admin with sidebar layout */}
         <Route element={<RoleGuard roles={['admin']} />}>
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/users" element={<AdminUsers />} />
-          <Route path="/admin/directions" element={<AdminDirections />} />
-          <Route path="/admin/resources" element={<AdminResources />} />
-          <Route path="/admin/locations" element={<AdminLocations />} />
-          <Route path="/admin/slots" element={<AdminSlots />} />
-          <Route path="/admin/news" element={<AdminNews />} />
-          <Route path="/admin/materials" element={<AdminMaterials />} />
-          <Route path="/admin/rewards" element={<AdminRewards />} />
-          <Route path="/admin/rating" element={<AdminRating />} />
-          <Route path="/admin/dksh" element={<AdminDksh />} />
-          <Route path="/admin/analytics" element={<AdminAnalytics />} />
-          <Route path="/admin/audit" element={<AdminAudit />} />
+          <Route element={<AdminLayout />}>
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/directions" element={<AdminDirections />} />
+            <Route path="/admin/resources" element={<AdminResources />} />
+            <Route path="/admin/locations" element={<AdminLocations />} />
+            <Route path="/admin/slots" element={<AdminSlots />} />
+            <Route path="/admin/news" element={<AdminNews />} />
+            <Route path="/admin/materials" element={<AdminMaterials />} />
+            <Route path="/admin/rewards" element={<AdminRewards />} />
+            <Route path="/admin/rating" element={<AdminRating />} />
+            <Route path="/admin/dksh" element={<AdminDksh />} />
+            <Route path="/admin/analytics" element={<AdminAnalytics />} />
+            <Route path="/admin/audit" element={<AdminAudit />} />
+          </Route>
         </Route>
 
         {/* Fallback */}

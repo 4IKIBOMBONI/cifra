@@ -26,6 +26,8 @@ async def lifespan(app: FastAPI):
     import app.dksh.models  # noqa: F401
     import app.notifications.models  # noqa: F401
     import app.audit.models  # noqa: F401
+    import app.campus_map.models  # noqa: F401
+    import app.telegram.models  # noqa: F401
 
     # Create all tables
     async with engine.begin() as conn:
@@ -77,6 +79,9 @@ from app.notifications.router import router as notifications_router
 from app.analytics.router import router as analytics_router
 from app.audit.router import router as audit_router
 from app.uploads.router import router as uploads_router
+from app.campus_map.router import router as campus_map_router
+from app.export.router import router as export_router
+from app.telegram.router import router as telegram_router
 
 app.include_router(auth_router)
 app.include_router(users_router)
@@ -94,6 +99,9 @@ app.include_router(notifications_router)
 app.include_router(analytics_router)
 app.include_router(audit_router)
 app.include_router(uploads_router)
+app.include_router(campus_map_router)
+app.include_router(export_router)
+app.include_router(telegram_router)
 
 
 @app.get("/api/health")

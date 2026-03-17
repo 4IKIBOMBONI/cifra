@@ -3,10 +3,12 @@ import { useParams, Link } from 'react-router-dom';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { Badge } from '@/components/ui/Badge';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { directionsApi, slotsApi, bookingsApi, resourcesApi } from '@/api';
 import type { Direction, Slot, Resource } from '@/types/api';
 import { useAuthStore } from '@/store/authStore';
-import { Calendar, MapPin, Clock } from 'lucide-react';
+import { Calendar, MapPin, Clock, ArrowLeft, Users, CheckCircle, XCircle } from 'lucide-react';
 
 export function DirectionDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -52,9 +54,9 @@ export function DirectionDetailPage() {
     return (
       <PageLayout>
         <div className="space-y-4">
-          <div className="h-8 w-64 bg-bg-surface rounded animate-pulse" />
-          <div className="h-32 bg-bg-surface rounded-lg animate-pulse" />
-          <div className="h-64 bg-bg-surface rounded-lg animate-pulse" />
+          <div className="skeleton h-8 w-64" />
+          <div className="skeleton h-32" />
+          <div className="skeleton h-64" />
         </div>
       </PageLayout>
     );
@@ -63,65 +65,91 @@ export function DirectionDetailPage() {
   if (!direction) {
     return (
       <PageLayout>
-        <div className="text-center py-16 text-text-muted">
-          <p className="text-lg">Направление не найдено</p>
-          <Link to="/directions" className="text-primary mt-2 inline-block">Все направления</Link>
-        </div>
+        <EmptyState title="Направление не найдено" description="Попробуйте выбрать другое направление" />
       </PageLayout>
     );
   }
 
   return (
     <PageLayout>
-      {/* Header */}
+      {/* Back + Header */}
       <div className="mb-8">
-        <Link to="/directions" className="text-sm text-text-muted hover:text-primary mb-2 inline-block">
-          ← Все направления
+        <Link to="/directions" className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-primary transition-colors mb-4">
+          <ArrowLeft size={16} /> Все направления
         </Link>
         <div className="flex items-center gap-4">
           <div
-            className="w-16 h-16 rounded-xl flex items-center justify-center text-3xl"
-            style={{ backgroundColor: (direction.color || '#6C5CE7') + '20' }}
+            className="w-16 h-16 rounded-xl flex items-center justify-center text-3xl shrink-0"
+            style={{ backgroundColor: (direction.color || '#2563EB') + '15' }}
           >
             {direction.icon}
           </div>
           <div>
             <h1 className="text-2xl font-bold">{direction.name}</h1>
-            <p className="text-text-secondary">{direction.description}</p>
+            {direction.description && (
+              <p className="text-text-secondary mt-1">{direction.description}</p>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Info Cards */}
+      {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <Card hover={false} className="text-center">
-          <Clock size={20} className="mx-auto mb-2 text-primary" />
-          <p className="text-sm text-text-muted">Длительность</p>
-          <p className="font-semibold">{direction.slot_durations.join(' / ')} мин</p>
+        <Card hover={false}>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+              <Clock size={20} className="text-primary" />
+            </div>
+            <div>
+              <p className="text-xs text-text-muted">Длительность</p>
+              <p className="font-semibold">{direction.slot_durations.join(' / ')} мин</p>
+            </div>
+          </div>
         </Card>
-        <Card hover={false} className="text-center">
-          <Calendar size={20} className="mx-auto mb-2 text-secondary" />
-          <p className="text-sm text-text-muted">Вместимость</p>
-          <p className="font-semibold">{direction.default_slot_capacity} чел</p>
+        <Card hover={false}>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center">
+              <Users size={20} className="text-secondary" />
+            </div>
+            <div>
+              <p className="text-xs text-text-muted">Вместимость</p>
+              <p className="font-semibold">{direction.default_slot_capacity} чел</p>
+            </div>
+          </div>
         </Card>
-        <Card hover={false} className="text-center">
-          <MapPin size={20} className="mx-auto mb-2 text-accent" />
-          <p className="text-sm text-text-muted">Ресурсов</p>
-          <p className="font-semibold">{resources.length}</p>
+        <Card hover={false}>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+              <MapPin size={20} className="text-accent" />
+            </div>
+            <div>
+              <p className="text-xs text-text-muted">Ресурсов</p>
+              <p className="font-semibold">{resources.length}</p>
+            </div>
+          </div>
         </Card>
       </div>
 
       {/* Resources */}
       {resources.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-xl font-bold mb-4">Оборудование и площадки</h2>
+          <h2 className="section-title mb-4">Оборудование и площадки</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {resources.map(r => (
-              <Card key={r.id} hover={false} className="flex items-center gap-3">
-                <div className={`w-3 h-3 rounded-full shrink-0 ${r.status === 'active' ? 'bg-success' : 'bg-error'}`} />
-                <div>
-                  <p className="font-medium text-sm">{r.name}</p>
-                  <p className="text-xs text-text-muted">{r.type}{r.capacity ? ` · ${r.capacity} мест` : ''}</p>
+              <Card key={r.id} hover={false}>
+                <div className="flex items-center gap-3">
+                  {r.status === 'active' ? (
+                    <CheckCircle size={18} className="text-success shrink-0" />
+                  ) : (
+                    <XCircle size={18} className="text-error shrink-0" />
+                  )}
+                  <div>
+                    <p className="font-medium text-sm">{r.name}</p>
+                    <p className="text-xs text-text-muted">{r.type}{r.capacity ? ` · ${r.capacity} мест` : ''}</p>
+                  </div>
+                  <Badge variant={r.status === 'active' ? 'success' : 'error'} className="ml-auto">
+                    {r.status === 'active' ? 'Доступен' : 'Недоступен'}
+                  </Badge>
                 </div>
               </Card>
             ))}
@@ -132,35 +160,31 @@ export function DirectionDetailPage() {
       {/* Today's Slots */}
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold">Слоты на сегодня</h2>
-          <Link to="/schedule" className="text-sm text-primary hover:text-primary-light">
+          <h2 className="section-title">Слоты на сегодня</h2>
+          <Link to="/schedule" className="text-sm text-primary hover:text-primary-light font-medium transition-colors">
             Полное расписание →
           </Link>
         </div>
         {slots.length === 0 ? (
-          <p className="text-text-muted text-center py-8">На сегодня слотов нет</p>
+          <EmptyState icon={<Calendar size={28} />} title="На сегодня слотов нет" description="Попробуйте посмотреть расписание на другие дни" />
         ) : (
           <div className="space-y-2">
             {slots.map(slot => (
               <Card key={slot.id} hover={false} className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="text-center min-w-[70px]">
-                    <p className="font-bold font-accent">{slot.start_time.slice(0, 5)}</p>
+                    <p className="font-bold font-accent text-lg">{slot.start_time.slice(0, 5)}</p>
                     <p className="text-xs text-text-muted">{slot.end_time.slice(0, 5)}</p>
                   </div>
                   <div>
-                    <span className="badge bg-bg-elevated text-text-secondary text-xs">
+                    <Badge variant="neutral" size="sm">
                       {slot.type === 'individual' ? 'Индивидуальный' : slot.type === 'team' ? 'Командный' : 'Открытый'}
-                    </span>
+                    </Badge>
                     <p className="text-xs text-text-muted mt-1">{slot.current_count}/{slot.capacity} мест</p>
                   </div>
                 </div>
                 {slot.status === 'available' && user?.role !== 'guest' && (
-                  <Button
-                    size="sm"
-                    loading={bookingSlot === slot.id}
-                    onClick={() => handleBook(slot.id)}
-                  >
+                  <Button size="sm" loading={bookingSlot === slot.id} onClick={() => handleBook(slot.id)}>
                     Записаться
                   </Button>
                 )}
