@@ -237,11 +237,15 @@ export function HomePage() {
                   }`}>
                     {entry.rank}
                   </div>
-                  <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center shrink-0">
-                    <span className="text-xs font-bold text-white">
-                      {entry.first_name[0]}{entry.last_name[0]}
-                    </span>
-                  </div>
+                  {entry.avatar_url ? (
+                    <img src={entry.avatar_url} alt={`${entry.first_name} ${entry.last_name}`} className="w-8 h-8 rounded-lg object-cover shrink-0" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center shrink-0">
+                      <span className="text-xs font-bold text-white">
+                        {entry.first_name[0]}{entry.last_name[0]}
+                      </span>
+                    </div>
+                  )}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate">{entry.first_name} {entry.last_name}</p>
                   </div>

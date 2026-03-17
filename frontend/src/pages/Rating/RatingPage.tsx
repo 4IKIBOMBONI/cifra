@@ -101,11 +101,15 @@ export function RatingPage() {
               }`}>
                 {entry.rank}
               </div>
-              <div className="w-9 h-9 rounded-lg bg-gradient-primary flex items-center justify-center shrink-0">
-                <span className="text-xs font-bold text-white">
-                  {entry.first_name[0]}{entry.last_name[0]}
-                </span>
-              </div>
+              {entry.avatar_url ? (
+                <img src={entry.avatar_url} alt={`${entry.first_name} ${entry.last_name}`} className="w-9 h-9 rounded-lg object-cover shrink-0" />
+              ) : (
+                <div className="w-9 h-9 rounded-lg bg-gradient-primary flex items-center justify-center shrink-0">
+                  <span className="text-xs font-bold text-white">
+                    {entry.first_name[0]}{entry.last_name[0]}
+                  </span>
+                </div>
+              )}
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-sm truncate">{entry.first_name} {entry.last_name}</p>
               </div>

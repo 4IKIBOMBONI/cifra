@@ -8,6 +8,7 @@ from datetime import date, time, timedelta, datetime
 
 from app.auth.utils import hash_password
 from app.database import async_session, engine, Base
+from app.seed_images import generate_all_images
 
 # Импорт всех моделей
 from app.users.models import User, VerificationRecord
@@ -43,6 +44,10 @@ async def seed_data():
             print("  БД уже содержит данные. Пропускаем seed.")
             return
 
+        # Генерация placeholder-изображений
+        img = generate_all_images()
+        print("  Изображения сгенерированы")
+
         # =============================================
         # 1. ПОЛЬЗОВАТЕЛИ
         # =============================================
@@ -57,7 +62,7 @@ async def seed_data():
             is_verified=True,
             is_active=True,
             rating_score=100,
-            avatar_url="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face",
+            avatar_url=img["avatar_admin"],
         )
         db.add(admin)
 
@@ -73,7 +78,7 @@ async def seed_data():
             rating_score=100,
             phone="+7 (999) 111-22-33",
             telegram="@trainer_ivanov",
-            avatar_url="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face",
+            avatar_url=img["avatar_trainer1"],
         )
         db.add(trainer)
 
@@ -89,7 +94,7 @@ async def seed_data():
             rating_score=80,
             phone="+7 (999) 222-33-44",
             telegram="@trainer_kuznetsova",
-            avatar_url="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face",
+            avatar_url=img["avatar_trainer2"],
         )
         db.add(trainer2)
 
@@ -107,7 +112,7 @@ async def seed_data():
             rating_score=350,
             phone="+7 (900) 100-10-01",
             telegram="@ivan_ivanov",
-            avatar_url="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&h=200&fit=crop&crop=face",
+            avatar_url=img["avatar_student1"],
         )
         student2 = User(
             email="maria@cifra.sgtu.ru",
@@ -121,7 +126,7 @@ async def seed_data():
             is_active=True,
             rating_score=280,
             telegram="@masha_petrova",
-            avatar_url="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face",
+            avatar_url=img["avatar_student2"],
         )
         student3 = User(
             email="alexey@cifra.sgtu.ru",
@@ -135,7 +140,7 @@ async def seed_data():
             is_active=True,
             rating_score=420,
             telegram="@alex_sid",
-            avatar_url="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face",
+            avatar_url=img["avatar_student3"],
         )
         student4 = User(
             email="elena@cifra.sgtu.ru",
@@ -148,7 +153,7 @@ async def seed_data():
             is_verified=True,
             is_active=True,
             rating_score=190,
-            avatar_url="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face",
+            avatar_url=img["avatar_student4"],
         )
         student5 = User(
             email="dmitry@cifra.sgtu.ru",
@@ -162,7 +167,7 @@ async def seed_data():
             is_active=True,
             rating_score=510,
             telegram="@dima_moroz",
-            avatar_url="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face",
+            avatar_url=img["avatar_student5"],
         )
         student6 = User(
             email="anna@cifra.sgtu.ru",
@@ -175,7 +180,7 @@ async def seed_data():
             is_verified=True,
             is_active=True,
             rating_score=160,
-            avatar_url="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=face",
+            avatar_url=img["avatar_student6"],
         )
         student7 = User(
             email="nikita@cifra.sgtu.ru",
@@ -189,7 +194,7 @@ async def seed_data():
             is_active=True,
             rating_score=600,
             telegram="@nikita_wolf",
-            avatar_url="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&h=200&fit=crop&crop=face",
+            avatar_url=img["avatar_student7"],
         )
         student8 = User(
             email="olga@cifra.sgtu.ru",
@@ -202,7 +207,7 @@ async def seed_data():
             is_verified=True,
             is_active=True,
             rating_score=95,
-            avatar_url="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&h=200&fit=crop&crop=face",
+            avatar_url=img["avatar_student8"],
         )
 
         students = [student1, student2, student3, student4, student5, student6, student7, student8]
@@ -288,7 +293,7 @@ async def seed_data():
             description="Соревновательный гейминг: CS2, Dota 2, Valorant и другие дисциплины. Тренировки, разборы матчей, участие в турнирах университетской и региональной лиги.",
             icon="🎮",
             color="#6C5CE7",
-            cover_image_url="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&h=400&fit=crop",
+            cover_image_url=img["dir_cybersport"],
             default_slot_capacity=5,
             slot_durations=[60, 120],
             sort_order=1,
@@ -299,7 +304,7 @@ async def seed_data():
             description="Командная тактическая игра с лазерным оборудованием. Развивает командную работу, стратегическое мышление и физическую подготовку. Сценарии: захват флага, командный бой, VIP.",
             icon="🔫",
             color="#FF6B6B",
-            cover_image_url="https://images.unsplash.com/photo-1614294149010-950b698f72c0?w=800&h=400&fit=crop",
+            cover_image_url=img["dir_lasertag"],
             default_slot_capacity=10,
             slot_durations=[60, 120],
             sort_order=2,
@@ -310,7 +315,7 @@ async def seed_data():
             description="Пилотирование FPV-дронов, аэросъёмка, гонки. Обучение от базового управления до freestyle-трюков. Свои дроны и шлемы.",
             icon="🛸",
             color="#00D2D3",
-            cover_image_url="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=800&h=400&fit=crop",
+            cover_image_url=img["dir_drones"],
             default_slot_capacity=3,
             slot_durations=[30, 60],
             sort_order=3,
@@ -321,7 +326,7 @@ async def seed_data():
             description="PlayStation 5 — FIFA 25, Mortal Kombat 1, Gran Turismo 7, It Takes Two и другие хиты. Индивидуальные и парные сессии на большом экране.",
             icon="🕹️",
             color="#FECA57",
-            cover_image_url="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=800&h=400&fit=crop",
+            cover_image_url=img["dir_playstation"],
             default_slot_capacity=2,
             slot_durations=[30, 60],
             sort_order=4,
@@ -332,7 +337,7 @@ async def seed_data():
             description="Игровые ПК для тренировок и свободной игры. RTX 4070, 32GB RAM, 240Hz мониторы. Периферия HyperX и Logitech.",
             icon="💻",
             color="#00B894",
-            cover_image_url="https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=800&h=400&fit=crop",
+            cover_image_url=img["dir_computers"],
             default_slot_capacity=10,
             slot_durations=[60, 120],
             sort_order=5,
@@ -380,13 +385,13 @@ async def seed_data():
         # =============================================
 
         rewards = [
-            Reward(name="Фирменная футболка CIFRA", description="Чёрная футболка с логотипом CIFRA на груди и принтом на спине. Размеры: S, M, L, XL. Хлопок 100%.", cost_points=200, stock=20, is_active=True, photo_url="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop"),
-            Reward(name="Стикерпак CIFRA", description="Набор из 10 фирменных стикеров с персонажами и мемами CIFRA.", cost_points=50, stock=50, is_active=True, photo_url="https://images.unsplash.com/photo-1553991562-9f24b119ff51?w=400&h=300&fit=crop"),
-            Reward(name="Powerbank 10000 mAh", description="Портативная зарядка Xiaomi с гравировкой логотипа CIFRA.", cost_points=500, stock=5, is_active=True, photo_url="https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=300&fit=crop"),
-            Reward(name="Игровой коврик для мыши XL", description="Коврик 800x300 мм с символикой CIFRA. Ткань + резиновая основа.", cost_points=150, stock=15, is_active=True, photo_url="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=300&fit=crop"),
-            Reward(name="Кружка CIFRA", description="Керамическая кружка 350 мл с логотипом. Можно в посудомойку.", cost_points=100, stock=30, is_active=True, photo_url="https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400&h=300&fit=crop"),
-            Reward(name="Худи CIFRA (лимитка)", description="Худи оверсайз с вышивкой CIFRA. Лимитированная серия, чёрный цвет.", cost_points=800, stock=3, is_active=True, photo_url="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=300&fit=crop"),
-            Reward(name="Ланъярд с карабином", description="Шнурок для бейджа/ключей с логотипом CIFRA.", cost_points=30, stock=100, is_active=True, photo_url="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&h=300&fit=crop"),
+            Reward(name="Фирменная футболка CIFRA", description="Чёрная футболка с логотипом CIFRA на груди и принтом на спине. Размеры: S, M, L, XL. Хлопок 100%.", cost_points=200, stock=20, is_active=True, photo_url=img["reward_tshirt"]),
+            Reward(name="Стикерпак CIFRA", description="Набор из 10 фирменных стикеров с персонажами и мемами CIFRA.", cost_points=50, stock=50, is_active=True, photo_url=img["reward_stickers"]),
+            Reward(name="Powerbank 10000 mAh", description="Портативная зарядка Xiaomi с гравировкой логотипа CIFRA.", cost_points=500, stock=5, is_active=True, photo_url=img["reward_powerbank"]),
+            Reward(name="Игровой коврик для мыши XL", description="Коврик 800x300 мм с символикой CIFRA. Ткань + резиновая основа.", cost_points=150, stock=15, is_active=True, photo_url=img["reward_mousepad"]),
+            Reward(name="Кружка CIFRA", description="Керамическая кружка 350 мл с логотипом. Можно в посудомойку.", cost_points=100, stock=30, is_active=True, photo_url=img["reward_mug"]),
+            Reward(name="Худи CIFRA (лимитка)", description="Худи оверсайз с вышивкой CIFRA. Лимитированная серия, чёрный цвет.", cost_points=800, stock=3, is_active=True, photo_url=img["reward_hoodie"]),
+            Reward(name="Ланъярд с карабином", description="Шнурок для бейджа/ключей с логотипом CIFRA.", cost_points=30, stock=100, is_active=True, photo_url=img["reward_lanyard"]),
         ]
         for r in rewards:
             db.add(r)
@@ -402,7 +407,7 @@ async def seed_data():
                 title="Платформа CIFRA запущена!",
                 slug="cifra-launched",
                 type="news",
-                cover_image_url="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=400&fit=crop",
+                cover_image_url=img["news_cifra-launch"],
                 content="<p>Рады сообщить, что платформа <strong>CIFRA</strong> официально запущена! Теперь вы можете бронировать тренировки, участвовать в турнирах и зарабатывать баллы рейтинга.</p><p>Зарегистрируйтесь с помощью номера студенческого билета и начните прокачивать свой рейтинг!</p><h3>Что доступно:</h3><ul><li>Бронирование слотов по 5 направлениям</li><li>Рейтинговая система с таблицей лидеров</li><li>Магазин наград за баллы</li><li>Учебные материалы и инструкции</li></ul>",
                 is_published=True,
                 author_id=admin.id,
@@ -412,7 +417,7 @@ async def seed_data():
                 slug="cs2-spring-cup",
                 type="announcement",
                 direction_id=dir_cyber.id,
-                cover_image_url="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&h=400&fit=crop",
+                cover_image_url=img["news_cs2-cup"],
                 content="<p>Приглашаем всех любителей CS2 на <strong>Весенний кубок CIFRA</strong>!</p><ul><li>Формат: 5v5, Single Elimination</li><li>Дата: 25 марта 2026</li><li>Место: Компьютерный класс, корпус 2</li><li>Приз: +100 баллов рейтинга победителям, +50 финалистам</li><li>Регистрация команд до 22 марта</li></ul><p>Собери команду из 5 человек и запишись через платформу!</p>",
                 is_published=True,
                 author_id=admin.id,
@@ -422,7 +427,7 @@ async def seed_data():
                 slug="new-fpv-goggles",
                 type="news",
                 direction_id=dir_drones.id,
-                cover_image_url="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=800&h=400&fit=crop",
+                cover_image_url=img["news_fpv-goggles"],
                 content="<p>В направлении <strong>Дроны</strong> появились новые FPV-шлемы <strong>DJI Goggles 2</strong>!</p><p>Теперь пилотирование стало ещё более иммерсивным — разрешение 1080p, низкая задержка, удобная посадка.</p><p>Приходите попробовать на ближайшей тренировке.</p>",
                 is_published=True,
                 author_id=admin.id,
@@ -432,7 +437,7 @@ async def seed_data():
                 slug="fifa25-results",
                 type="result",
                 direction_id=dir_ps.id,
-                cover_image_url="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=800&h=400&fit=crop",
+                cover_image_url=img["news_fifa25"],
                 content="<p>Завершился турнир по <strong>FIFA 25</strong> на PlayStation!</p><h3>Результаты:</h3><ol><li>🥇 Никита Волков — 7 побед из 7</li><li>🥈 Дмитрий Морозов — 5 побед</li><li>🥉 Иван Иванов — 4 победы</li></ol><p>Поздравляем победителей! Баллы рейтинга уже начислены.</p>",
                 is_published=True,
                 author_id=admin.id,
@@ -441,7 +446,7 @@ async def seed_data():
                 title="График работы на праздничные дни",
                 slug="holiday-schedule",
                 type="announcement",
-                cover_image_url="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&h=400&fit=crop",
+                cover_image_url=img["news_holiday"],
                 content="<p>Уважаемые участники!</p><p>В период с 8 по 10 марта фиджитал-центр работает по сокращённому графику:</p><ul><li>8 марта — выходной</li><li>9 марта — 12:00–18:00</li><li>10 марта — обычный режим</li></ul><p>Бронирование слотов на эти даты уже открыто.</p>",
                 is_published=True,
                 author_id=admin.id,
@@ -451,7 +456,7 @@ async def seed_data():
                 slug="dota2-team-recruitment",
                 type="announcement",
                 direction_id=dir_cyber.id,
-                cover_image_url="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&h=400&fit=crop",
+                cover_image_url=img["news_dota2"],
                 content="<p>Формируем университетскую команду по <strong>Dota 2</strong> для участия в Студенческой Киберспортивной Лиге!</p><h3>Требования:</h3><ul><li>Ранг: не ниже Archon</li><li>Готовность тренироваться 3 раза в неделю</li><li>Командная дисциплина</li></ul><p>Заявки принимаются до конца месяца. Обращайтесь к тренеру Сергею Петровичу.</p>",
                 is_published=True,
                 author_id=admin.id,
@@ -461,7 +466,7 @@ async def seed_data():
                 title="VR-день в фиджитал-центре: погружение в виртуальную реальность",
                 slug="vr-day-event",
                 type="news",
-                cover_image_url="https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=800&h=400&fit=crop",
+                cover_image_url=img["news_vr-day"],
                 content="<p>В минувшую субботу в фиджитал-центре прошёл <strong>VR-день</strong>!</p><p>Участники попробовали VR-шлемы, поиграли в Beat Saber и Half-Life: Alyx, а также познакомились с образовательными VR-приложениями.</p><p>Более 40 студентов приняли участие в мероприятии. Фотоотчёт уже в нашей группе ВКонтакте!</p>",
                 is_published=True,
                 author_id=admin.id,
@@ -471,7 +476,7 @@ async def seed_data():
                 slug="cs2-student-league",
                 type="announcement",
                 direction_id=dir_cyber.id,
-                cover_image_url="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=800&h=400&fit=crop",
+                cover_image_url=img["news_cs2-league"],
                 content="<p>СГТУ принимает участие в <strong>Студенческой лиге по Counter-Strike 2</strong>!</p><h3>Детали:</h3><ul><li>Формат: 5v5, BO3</li><li>Карты: Mirage, Inferno, Anubis</li><li>Приз: +150 баллов рейтинга для MVP</li></ul><p>Трансляция матчей будет вестись из стриминговой студии. Болельщики приветствуются!</p>",
                 is_published=True,
                 author_id=admin.id,
@@ -481,7 +486,7 @@ async def seed_data():
                 slug="drone-open-day",
                 type="announcement",
                 direction_id=dir_drones.id,
-                cover_image_url="https://images.unsplash.com/photo-1508444845599-5c89863b1c44?w=800&h=400&fit=crop",
+                cover_image_url=img["news_drone-day"],
                 content="<p>Приглашаем на <strong>Открытый день дронов</strong>! Если вы давно хотели попробовать управлять квадрокоптером — это ваш шанс.</p><ul><li>Мини-лекция по безопасности полётов</li><li>Тестовые полёты на DJI Mini 3 Pro</li><li>FPV-симулятор для начинающих</li><li>Показательные полёты от опытных пилотов</li></ul><p>Мероприятие бесплатное. Регистрация на платформе.</p>",
                 is_published=True,
                 author_id=admin.id,
@@ -491,7 +496,7 @@ async def seed_data():
                 slug="lasertag-faculty-battle",
                 type="announcement",
                 direction_id=dir_laser.id,
-                cover_image_url="https://images.unsplash.com/photo-1614294149010-950b698f72c0?w=800&h=400&fit=crop",
+                cover_image_url=img["news_lasertag-battle"],
                 content="<p>Межфакультетский турнир по <strong>лазертагу</strong> состоится 28 марта!</p><h3>Формат:</h3><ul><li>Команды по 5 человек от каждого факультета</li><li>Сценарии: захват флага, командный бой, VIP-защита</li><li>Победители получат +80 баллов рейтинга</li></ul><p>Запись команд через капитанов. Дедлайн — 25 марта.</p>",
                 is_published=True,
                 author_id=admin.id,
@@ -500,7 +505,7 @@ async def seed_data():
                 title="Итоги недели: топ-3 игрока по посещаемости",
                 slug="weekly-top-players",
                 type="result",
-                cover_image_url="https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=800&h=400&fit=crop",
+                cover_image_url=img["news_weekly-top"],
                 content="<p>Подводим итоги прошедшей недели!</p><h3>Самые активные участники:</h3><ol><li>🥇 Никита Волков — 12 посещений</li><li>🥈 Алексей Сидоров — 10 посещений</li><li>🥉 Дмитрий Морозов — 9 посещений</li></ol><p>Каждому начислены бонусные баллы. Продолжайте в том же духе!</p>",
                 is_published=True,
                 author_id=admin.id,
@@ -509,7 +514,7 @@ async def seed_data():
                 title="Совместный проект с ДКШ: цифровое наставничество",
                 slug="dksh-digital-mentoring",
                 type="news",
-                cover_image_url="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=400&fit=crop",
+                cover_image_url=img["news_dksh-mentor"],
                 content="<p>CIFRA запускает совместную программу с <strong>Добровольной Кибершколой (ДКШ)</strong>!</p><p>Лучшие студенты платформы смогут стать наставниками для школьников, обучая их основам киберспорта, дронов и IT-технологий.</p><h3>Преимущества участия:</h3><ul><li>+50 баллов рейтинга за каждое занятие</li><li>Сертификат наставника</li><li>Опыт преподавания и работы с подростками</li></ul><p>Подробности — в разделе ДКШ на платформе или <a href='https://vk.com/digitalschool' target='_blank'>в группе ВКонтакте</a>.</p>",
                 is_published=True,
                 author_id=admin.id,
