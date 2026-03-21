@@ -36,9 +36,7 @@ export function LoginPage() {
       <div className="w-full max-w-md relative z-10">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-primary mx-auto flex items-center justify-center shadow-glow mb-4">
-            <GraduationCap size={32} className="text-white" />
-          </div>
+          <img src="/images/logo.svg" alt="CIFRA" className="w-16 h-16 rounded-2xl mx-auto shadow-glow mb-4" />
           <h1 className="text-3xl font-bold gradient-text font-accent mb-2">CIFRA</h1>
           <p className="text-text-muted text-sm">Платформа фиджитал-активностей СГТУ</p>
         </div>

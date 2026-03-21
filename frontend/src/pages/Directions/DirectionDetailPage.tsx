@@ -77,6 +77,11 @@ export function DirectionDetailPage() {
         <Link to="/directions" className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-primary transition-colors mb-4">
           <ArrowLeft size={16} /> Все направления
         </Link>
+        {direction.cover_image_url && (
+          <div className="w-full h-48 rounded-xl overflow-hidden mb-4">
+            <img src={direction.cover_image_url} alt={direction.name} className="w-full h-full object-cover" />
+          </div>
+        )}
         <div className="flex items-center gap-4">
           <div
             className="w-16 h-16 rounded-xl flex items-center justify-center text-3xl shrink-0"
