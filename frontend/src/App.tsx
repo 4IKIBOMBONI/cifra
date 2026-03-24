@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { AuthGuard, RoleGuard, GuestGuard } from '@/components/guards/AuthGuard';
 import { AdminLayout } from '@/components/layout/AdminLayout';
+import { InstallPWA } from '@/components/ui/InstallPWA';
 
 // Auth pages
 import { LoginPage } from '@/pages/Auth/LoginPage';
@@ -52,6 +53,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <InstallPWA />
       <Routes>
         {/* Public / Guest */}
         <Route path="/auth/login" element={<GuestGuard><LoginPage /></GuestGuard>} />

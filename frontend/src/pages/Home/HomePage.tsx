@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { useStaggeredAnimation } from '@/hooks/useAnimateOnScroll';
+import { useAnimatedCounter } from '@/hooks/useAnimatedCounter';
 import { newsApi, slotsApi, ratingApi, directionsApi } from '@/api';
 import type { NewsPost, Slot, LeaderboardEntry, Direction } from '@/types/api';
 
@@ -21,6 +22,7 @@ export function HomePage() {
 
   const directionsAnim = useStaggeredAnimation(5);
   const quickLinksAnim = useStaggeredAnimation(4);
+  const animatedRating = useAnimatedCounter(user?.rating_score ?? 0);
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
@@ -52,7 +54,13 @@ export function HomePage() {
   return (
     <PageLayout>
       {/* Hero */}
-      <section className="relative overflow-hidden rounded-2xl bg-gradient-hero border border-border p-8 md:p-12 mb-8">
+      <section className="hero-section neon-border relative overflow-hidden rounded-2xl bg-gradient-hero border border-border p-8 md:p-12 mb-8">
+        {/* Background image overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.07] bg-cover bg-center rounded-2xl"
+          style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&q=80)' }}
+          aria-hidden="true"
+        />
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-4">
             <Badge variant="primary" size="md">{t.home.platformBadge}</Badge>
@@ -77,8 +85,8 @@ export function HomePage() {
             </Link>
           </div>
         </div>
-        <div className="absolute -top-32 -right-32 w-80 h-80 rounded-full bg-primary/8 blur-[100px]" aria-hidden="true" />
-        <div className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full bg-secondary/8 blur-[100px]" aria-hidden="true" />
+        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-primary/10 blur-[120px] animate-pulse-soft" aria-hidden="true" />
+        <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-secondary/10 blur-[120px] animate-pulse-soft" aria-hidden="true" />
       </section>
 
       {/* Quick stats */}
@@ -89,7 +97,7 @@ export function HomePage() {
               <div>
                 <p className="text-text-muted text-sm mb-1">{t.home.myRating}</p>
                 <p className={`text-3xl font-bold font-accent ${ratingLevel.color}`}>
-                  {ratingScore}
+                  {animatedRating}
                 </p>
                 <p className="text-xs text-text-muted mt-1">{ratingLevel.label}</p>
               </div>
