@@ -6,9 +6,10 @@ interface CardProps {
   hover?: boolean;
   padding?: 'none' | 'sm' | 'md' | 'lg';
   onClick?: () => void;
+  style?: React.CSSProperties;
 }
 
-export function Card({ children, className, hover = true, padding = 'md', onClick }: CardProps) {
+export function Card({ children, className, hover = true, padding = 'md', onClick, style }: CardProps) {
   return (
     <div
       className={clsx(
@@ -23,6 +24,7 @@ export function Card({ children, className, hover = true, padding = 'md', onClic
         className
       )}
       onClick={onClick}
+      style={style}
     >
       {children}
     </div>

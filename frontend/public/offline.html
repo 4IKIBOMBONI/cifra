@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0B1120" />
+  <title>CIFRA — Оффлайн</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0B1120;
+      color: #F1F5F9;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .container { max-width: 400px; }
+    .icon {
+      width: 80px; height: 80px;
+      margin: 0 auto 1.5rem;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #2563EB, #06B6D4);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 40px rgba(37, 99, 235, 0.3);
+    }
+    .icon svg { width: 40px; height: 40px; }
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #2563EB, #06B6D4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p { color: #94A3B8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem; }
+    button {
+      background: #2563EB;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.75rem 2rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button:hover { background: #1D4ED8; box-shadow: 0 0 24px rgba(37, 99, 235, 0.25); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">
+      <svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M18.364 5.636a9 9 0 010 12.728M15.536 8.464a5 5 0 010 7.072M12 12h.01" />
+      </svg>
+    </div>
+    <h1>CIFRA</h1>
+    <p>Нет подключения к интернету.<br/>Проверьте соединение и попробуйте снова.</p>
+    <button onclick="location.reload()">Повторить</button>
+  </div>
+</body>
+</html>
