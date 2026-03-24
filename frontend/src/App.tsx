@@ -28,6 +28,7 @@ import { NotificationsPage } from '@/pages/Notifications/NotificationsPage';
 import { RewardsPage } from '@/pages/Rewards/RewardsPage';
 import { TeamsPage } from '@/pages/Teams/TeamsPage';
 import { DkshPage } from '@/pages/Dksh/DkshPage';
+import { AchievementsPage } from '@/pages/Achievements/AchievementsPage';
 
 // Admin pages
 import { AdminDashboard } from '@/pages/Admin/AdminDashboard';
@@ -78,6 +79,7 @@ export default function App() {
         {/* Students only */}
         <Route element={<RoleGuard roles={['student', 'admin']} />}>
           <Route path="/rating" element={<RatingPage />} />
+          <Route path="/achievements" element={<AchievementsPage />} />
           <Route path="/rewards" element={<RewardsPage />} />
           <Route path="/teams" element={<TeamsPage />} />
           <Route path="/profile/dksh" element={<DkshPage />} />
