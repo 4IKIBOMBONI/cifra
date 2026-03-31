@@ -2,21 +2,26 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Bell, Menu, X, LogOut, User, Shield, ChevronDown, Gamepad2, Calendar, Trophy, Newspaper, BookOpen, Map, Gift } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useAuthStore } from '@/store/authStore';
+import { ThemeSwitcher } from '@/components/ui/ThemeSwitcher';
+import { EmojiToggle } from '@/components/ui/EmojiToggle';
+import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
+import { useI18n } from '@/i18n';
 
 const NAV_ITEMS = [
-  { label: 'Направления', path: '/directions', icon: Gamepad2 },
-  { label: 'Расписание', path: '/schedule', icon: Calendar },
-  { label: 'Рейтинг', path: '/rating', icon: Trophy },
-  { label: 'Новости', path: '/news', icon: Newspaper },
-  { label: 'Материалы', path: '/materials', icon: BookOpen },
-  { label: 'Карта', path: '/map', icon: Map },
-  { label: 'Награды', path: '/rewards', icon: Gift },
+  { labelKey: 'nav.directions' as const, path: '/directions', icon: Gamepad2 },
+  { labelKey: 'nav.schedule' as const, path: '/schedule', icon: Calendar },
+  { labelKey: 'nav.rating' as const, path: '/rating', icon: Trophy },
+  { labelKey: 'nav.news' as const, path: '/news', icon: Newspaper },
+  { labelKey: 'nav.materials' as const, path: '/materials', icon: BookOpen },
+  { labelKey: 'nav.map' as const, path: '/map', icon: Map },
+  { labelKey: 'nav.rewards' as const, path: '/rewards', icon: Gift },
 ];
 
 export function Header() {
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useI18n();
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -37,10 +42,10 @@ export function Header() {
   }, [location.pathname]);
 
   const ratingLevel =
-    (user?.rating_score ?? 0) >= 100 ? { color: 'text-primary', bg: 'bg-primary/15', label: 'Элита' } :
-    (user?.rating_score ?? 0) >= 70 ? { color: 'text-success', bg: 'bg-success/15', label: 'Продвинутый' } :
-    (user?.rating_score ?? 0) >= 30 ? { color: 'text-accent', bg: 'bg-accent/15', label: 'Активный' } :
-    { color: 'text-error', bg: 'bg-error/15', label: 'Новичок' };
+    (user?.rating_score ?? 0) >= 100 ? { color: 'text-primary', bg: 'bg-primary/15', label: t('rating.elite') } :
+    (user?.rating_score ?? 0) >= 70 ? { color: 'text-success', bg: 'bg-success/15', label: t('rating.advanced') } :
+    (user?.rating_score ?? 0) >= 30 ? { color: 'text-accent', bg: 'bg-accent/15', label: t('rating.active') } :
+    { color: 'text-error', bg: 'bg-error/15', label: t('rating.beginner') };
 
   const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
 
@@ -68,13 +73,13 @@ export function Header() {
                     : 'text-text-secondary hover:text-text-primary hover:bg-bg-elevated'
                 }`}
               >
-                {item.label}
+                {t(item.labelKey)}
               </Link>
             ))}
           </nav>
 
           {/* Right section */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             {/* Rating */}
             <Link
               to="/rating"
@@ -86,10 +91,20 @@ export function Header() {
               </span>
             </Link>
 
+            {/* Language switcher */}
+            <LanguageSwitcher />
+
+            {/* Emoji toggle */}
+            <EmojiToggle />
+
+            {/* Theme switcher */}
+            <ThemeSwitcher />
+
             {/* Notifications */}
             <Link
               to="/profile/notifications"
               className="relative p-2 hover:bg-bg-elevated rounded-lg transition-colors group"
+              aria-label={t('nav.notifications')}
             >
               <Bell size={18} className="text-text-muted group-hover:text-text-primary transition-colors" />
             </Link>
@@ -119,14 +134,14 @@ export function Header() {
                   </div>
                   <div className="py-1">
                     <Link to="/profile" className="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary hover:text-text-primary hover:bg-bg-elevated transition-colors">
-                      <User size={16} /> Профиль
+                      <User size={16} /> {t('nav.profile')}
                     </Link>
                     <Link to="/teams" className="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary hover:text-text-primary hover:bg-bg-elevated transition-colors">
-                      <Gamepad2 size={16} /> Мои команды
+                      <Gamepad2 size={16} /> {t('nav.teams')}
                     </Link>
                     {user?.role === 'admin' && (
                       <Link to="/admin/dashboard" className="flex items-center gap-3 px-4 py-2.5 text-sm text-primary hover:bg-primary/5 transition-colors">
-                        <Shield size={16} /> Админ-панель
+                        <Shield size={16} /> {t('nav.admin')}
                       </Link>
                     )}
                   </div>
@@ -135,7 +150,7 @@ export function Header() {
                       onClick={() => { logout(); navigate('/auth/login'); }}
                       className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-error hover:bg-error/5 transition-colors"
                     >
-                      <LogOut size={16} /> Выйти
+                      <LogOut size={16} /> {t('nav.logout')}
                     </button>
                   </div>
                 </div>
@@ -170,7 +185,7 @@ export function Header() {
                   }`}
                 >
                   <Icon size={18} />
-                  {item.label}
+                  {t(item.labelKey)}
                 </Link>
               );
             })}

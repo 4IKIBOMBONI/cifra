@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { Emoji } from '@/components/ui/Emoji';
 import { Badge } from '@/components/ui/Badge';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { directionsApi, slotsApi, bookingsApi, resourcesApi } from '@/api';
@@ -87,7 +88,7 @@ export function DirectionDetailPage() {
             className="w-16 h-16 rounded-xl flex items-center justify-center text-3xl shrink-0"
             style={{ backgroundColor: (direction.color || '#2563EB') + '15' }}
           >
-            {direction.icon}
+            <Emoji>{direction.icon}</Emoji>
           </div>
           <div>
             <h1 className="text-2xl font-bold">{direction.name}</h1>

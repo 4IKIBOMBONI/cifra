@@ -3,6 +3,7 @@ import { PageLayout } from '@/components/layout/PageLayout';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
+import { Emoji } from '@/components/ui/Emoji';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { bookingsApi, slotsApi, directionsApi } from '@/api';
 import type { Booking, Slot, Direction } from '@/types/api';
@@ -91,7 +92,7 @@ export function BookingsPage() {
               <Card key={booking.id} hover={false} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl bg-bg-elevated flex items-center justify-center text-2xl shrink-0">
-                    {dir?.icon || '📅'}
+                    <Emoji>{dir?.icon || '📅'}</Emoji>
                   </div>
                   <div>
                     <p className="font-semibold text-sm">{dir?.name || 'Направление'}</p>

@@ -7,6 +7,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { directionsApi } from '@/api';
 import type { Direction } from '@/types/api';
 import { Gamepad2, Users, Clock } from 'lucide-react';
+import { Emoji } from '@/components/ui/Emoji';
 
 export function DirectionsPage() {
   const [directions, setDirections] = useState<Direction[]>([]);
@@ -50,12 +51,12 @@ export function DirectionsPage() {
                     className="w-full h-40 rounded-t-lg flex items-center justify-center text-5xl"
                     style={{ background: `linear-gradient(135deg, ${dir.color || '#2563EB'}15, ${dir.color || '#2563EB'}05)` }}
                   >
-                    {dir.icon || '🎯'}
+                    <Emoji>{dir.icon || '🎯'}</Emoji>
                   </div>
                 )}
                 <div className="p-5">
                   <div className="flex items-center gap-3 mb-2">
-                    {dir.icon && <span className="text-xl">{dir.icon}</span>}
+                    {dir.icon && <span className="text-xl"><Emoji>{dir.icon}</Emoji></span>}
                     <h2 className="text-lg font-bold group-hover:text-primary transition-colors">
                       {dir.name}
                     </h2>
