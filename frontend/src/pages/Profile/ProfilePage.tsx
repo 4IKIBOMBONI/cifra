@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { usersApi } from '@/api';
+import { useI18n } from '@/store/i18nStore';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
+import { SkillRadarChart } from '@/components/ui/SkillRadarChart';
 import { Link } from 'react-router-dom';
-import { Calendar, Bell, Users, Award, FileText, Shield, Edit3, TrendingUp } from 'lucide-react';
+import { Calendar, Bell, Users, Award, FileText, Shield, Edit3, TrendingUp, Trophy } from 'lucide-react';
 
 export function ProfilePage() {
   const { user, fetchUser } = useAuthStore();
@@ -32,9 +34,21 @@ export function ProfilePage() {
     }
   };
 
+  const { locale } = useI18n();
+  const isRu = locale === 'ru';
+
   if (!user) return null;
 
   const roleName: Record<string, string> = { student: 'Студент', admin: 'Администратор', trainer: 'Тренер', guest: 'Гость' };
+
+  const skillsData = [
+    { label: isRu ? 'Киберспорт' : 'Esports', value: 75 },
+    { label: isRu ? 'Лазертаг' : 'Laser Tag', value: 45 },
+    { label: isRu ? 'Дроны' : 'Drones', value: 30 },
+    { label: 'PlayStation', value: 60 },
+    { label: isRu ? 'Компьютеры' : 'PCs', value: 85 },
+    { label: isRu ? 'Команда' : 'Teamwork', value: 55 },
+  ];
   const ratingLevel =
     user.rating_score >= 100 ? { color: 'text-primary', label: 'Элита' } :
     user.rating_score >= 70 ? { color: 'text-success', label: 'Продвинутый' } :
@@ -107,14 +121,23 @@ export function ProfilePage() {
         )}
       </Card>
 
+      {/* Skills Radar */}
+      <Card hover={false} className="mb-6">
+        <h3 className="text-base font-bold mb-4">{isRu ? 'Мои навыки' : 'My Skills'}</h3>
+        <div className="flex justify-center">
+          <SkillRadarChart skills={skillsData} size={280} />
+        </div>
+      </Card>
+
       {/* Quick Links */}
-      <h3 className="text-base font-bold mb-3">Быстрый доступ</h3>
+      <h3 className="text-base font-bold mb-3">{isRu ? 'Быстрый доступ' : 'Quick Access'}</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {[
-          { to: '/profile/bookings', icon: <Calendar size={20} />, color: 'primary', title: 'Мои бронирования' },
-          { to: '/profile/notifications', icon: <Bell size={20} />, color: 'secondary', title: 'Уведомления' },
-          { to: '/teams', icon: <Users size={20} />, color: 'accent', title: 'Мои команды' },
-          { to: '/rating', icon: <TrendingUp size={20} />, color: 'success', title: 'Рейтинг' },
+          { to: '/profile/bookings', icon: <Calendar size={20} />, color: 'primary', title: isRu ? 'Мои бронирования' : 'My Bookings' },
+          { to: '/achievements', icon: <Trophy size={20} />, color: 'warning', title: isRu ? 'Достижения' : 'Achievements' },
+          { to: '/profile/notifications', icon: <Bell size={20} />, color: 'secondary', title: isRu ? 'Уведомления' : 'Notifications' },
+          { to: '/teams', icon: <Users size={20} />, color: 'accent', title: isRu ? 'Мои команды' : 'My Teams' },
+          { to: '/rating', icon: <TrendingUp size={20} />, color: 'success', title: isRu ? 'Рейтинг' : 'Rating' },
           ...(user.role === 'student' ? [{ to: '/profile/dksh', icon: <FileText size={20} />, color: 'primary', title: 'Анкета ДКШ' }] : []),
           ...(user.role === 'admin' ? [{ to: '/profile/dksh', icon: <FileText size={20} />, color: 'primary', title: 'Анкета ДКШ' }] : []),
           ...(user.role === 'admin' ? [{ to: '/admin/dashboard', icon: <Shield size={20} />, color: 'error', title: 'Админ-панель' }] : []),
